@@ -1,4 +1,24 @@
 <?php
+/*
+ * transport.php
+ * 
+ * Copyright (c) 2013, Трапенок Виктор (Trapenok Victor). All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301  USA
+ */
 
 /**
  * Отправляет http запрос и возвращает ответ.
@@ -124,7 +144,9 @@ class transport
    }
    else
    {
-       return LOG::send_error("Произошла ошибка в transport->request()<br>Целевой URL пуст.");
+       $this->error ="Произошла ошибка в transport->request()<br>Целевой URL пуст.";
+       $this->error_code = -3;
+       return false;
    }
 
    if($message!=NULL)
@@ -166,7 +188,7 @@ class transport
         
         curl_setopt($curl, CURLOPT_HTTPHEADER, $http_header);
 
-        if(!isset($this->header['User-Agent'])){curl_setopt($curl,CURLOPT_USERAGENT,"Machaon cms from ".getConfig("hostname"));} // Напишем в юзер-агент
+        if(!isset($this->header['User-Agent'])){curl_setopt($curl,CURLOPT_USERAGENT,"Machaon cms transport");} // Напишем в юзер-агент
 
         if($this->message!=NULL)
         { //echo $this->message;
